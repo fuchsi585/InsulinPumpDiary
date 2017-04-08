@@ -1,8 +1,8 @@
-package de.fuchsi.basal_rate_db.activity;
+package de.fuchsi.insulinPumpDiary.activity;
 
-import de.fuchsi.basal_rate_db.R;
-import de.fuchsi.basal_rate_db.database.Entry;
-import de.fuchsi.basal_rate_db.views.GraphView;
+import de.fuchsi.insulinPumpDiary.R;
+import de.fuchsi.insulinPumpDiary.database.Entry;
+import de.fuchsi.insulinPumpDiary.views.GraphView;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

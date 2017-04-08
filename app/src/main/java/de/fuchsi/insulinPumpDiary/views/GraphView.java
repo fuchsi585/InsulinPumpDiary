@@ -1,4 +1,4 @@
-package de.fuchsi.basal_rate_db.views;
+package de.fuchsi.insulinPumpDiary.views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -7,15 +7,13 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
-import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.fuchsi.basal_rate_db.R;
+import de.fuchsi.insulinPumpDiary.R;
 
 public class GraphView extends View {
     private static final String LOG_TAG = GraphView.class.getSimpleName();

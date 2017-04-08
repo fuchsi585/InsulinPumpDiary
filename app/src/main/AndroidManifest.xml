@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.fuchsi.basal_rate_db">
+    package="de.fuchsi.insulinPumpDiary">
 
     <application
         android:allowBackup="true"
@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.MainActivity"
+            android:name="de.fuchsi.insulinPumpDiary.activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -19,13 +19,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.AddNewEntryActivity"
+            android:name="de.fuchsi.insulinPumpDiary.activity.AddNewEntryActivity"
             android:label="@string/newEntry"
-            android:parentActivityName=".activity.MainActivity"
+            android:parentActivityName="de.fuchsi.insulinPumpDiary.activity.MainActivity"
             android:windowSoftInputMode="stateVisible">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="de.fuchsi.basal_rate_db.activity.MainActivity" />
+                android:value="de.fuchsi.insulinPumpDiary.activity.MainActivity" />
         </activity>
     </application>
 

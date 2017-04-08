@@ -1,4 +1,4 @@
-package de.fuchsi.basal_rate_db;
+package de.fuchsi.insulinPumpDiary;
 
 import org.junit.Test;
 

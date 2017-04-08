@@ -1,12 +1,12 @@
-package de.fuchsi.basal_rate_db.activity;
+package de.fuchsi.insulinPumpDiary.activity;
 
-import de.fuchsi.basal_rate_db.R;
-import de.fuchsi.basal_rate_db.adapter.EntryListAdapter;
-import de.fuchsi.basal_rate_db.database.Entry;
-import de.fuchsi.basal_rate_db.database.EntryDataSource;
-import de.fuchsi.basal_rate_db.dialog.AboutDialog;
-import de.fuchsi.basal_rate_db.dialog.SortListViewDialog;
-import de.fuchsi.basal_rate_db.listener.EntryListClickListener.OnEntryListClickListener;
+import de.fuchsi.insulinPumpDiary.R;
+import de.fuchsi.insulinPumpDiary.adapter.EntryListAdapter;
+import de.fuchsi.insulinPumpDiary.database.Entry;
+import de.fuchsi.insulinPumpDiary.database.EntryDataSource;
+import de.fuchsi.insulinPumpDiary.dialog.AboutDialog;
+import de.fuchsi.insulinPumpDiary.dialog.SortListViewDialog;
+import de.fuchsi.insulinPumpDiary.listener.EntryListClickListener.OnEntryListClickListener;
 
 import android.content.Intent;
 import android.content.SharedPreferences;

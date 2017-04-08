@@ -1,4 +1,4 @@
-package de.fuchsi.basal_rate_db.adapter;
+package de.fuchsi.insulinPumpDiary.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,10 +10,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import de.fuchsi.basal_rate_db.R;
-import de.fuchsi.basal_rate_db.database.Entry;
-import de.fuchsi.basal_rate_db.listener.EntryListClickListener;
-import de.fuchsi.basal_rate_db.listener.EntryListClickListener.OnEntryListClickListener;
+import de.fuchsi.insulinPumpDiary.R;
+import de.fuchsi.insulinPumpDiary.database.Entry;
+import de.fuchsi.insulinPumpDiary.listener.EntryListClickListener;
+import de.fuchsi.insulinPumpDiary.listener.EntryListClickListener.OnEntryListClickListener;
 
 public class EntryListAdapter extends RecyclerView.Adapter<EntryListAdapter.ViewHolder> {
 

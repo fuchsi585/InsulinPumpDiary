@@ -1,4 +1,4 @@
-package de.fuchsi.basal_rate_db.database;
+package de.fuchsi.insulinPumpDiary.database;
 
 import android.content.ContentValues;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package de.fuchsi.basal_rate_db.listener;
+package de.fuchsi.insulinPumpDiary.listener;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

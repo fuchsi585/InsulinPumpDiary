@@ -41,7 +41,7 @@
                 android:id="@+id/switchActive"
                 android:textSize="18sp" />
 
-            <de.fuchsi.basal_rate_db.views.GraphView
+            <de.fuchsi.insulinPumpDiary.views.GraphView
                 android:id="@+id/graphView"
                 android:layout_width="match_parent"
                 android:layout_marginTop="20dp"
