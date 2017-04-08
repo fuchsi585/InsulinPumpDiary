@@ -298,7 +298,7 @@ public class GraphView extends View {
     int     stepLineColor       = Color.argb(255, 255, 0, 0);
     int     stepFillColor       = Color.argb(128, 220, 220, 220);
     int     stepPointColor      = Color.argb(255, 220, 220, 220);
-    int     stepPointStrokeColor= Color.argb(255, 255, 255, 255);
+    //int     stepPointStrokeColor= Color.argb(255, 255, 255, 255);
     boolean datasetFill         = true;
     float   pointDotRadius      = 4 * 3;
 
