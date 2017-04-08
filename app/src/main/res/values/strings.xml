@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Basal-Rate-DB</string>
+    <string name="settingsString">Settings</string>
+    <string name="aboutString">About</string>
+    <string name="newEntry">New Entry</string>
+    <string name="activeString">Active</string>
+    <string name="stepString">Step size:</string>
+    <string name="input_add_name">Name</string>
+    <string name="button_undo">undo</string>
+    <string name="item_total_text">24h-Total:</string>
+    <string name="delete_string">Delete</string>
+    <string name="copy_string">Copy</string>
+    <string name="shift_string">Shift</string>
+    <string-array name="stepSize">
+        <item>0.01</item>
+        <item>0.05</item>
+        <item>0.10</item>
+    </string-array>
+</resources>

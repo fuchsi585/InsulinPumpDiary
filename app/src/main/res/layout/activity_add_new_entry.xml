@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="16dp"
+            android:orientation="vertical">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2">
+
+                <EditText
+                    android:id="@+id/add_name_txt"
+                    android:hint="@string/input_add_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textAutoComplete"
+                    android:singleLine="true"
+                    android:textIsSelectable="false" />
+            </android.support.design.widget.TextInputLayout>
+
+            <Switch
+                android:text="@string/activeString"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:id="@+id/switchActive"
+                android:textSize="18sp" />
+
+            <de.fuchsi.basal_rate_db.views.GraphView
+                android:id="@+id/graphView"
+                android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_height="150dp"
+                app:scaleFontSize="12sp"
+                app:stepLineWidth="2sp"
+                app:scaleScaleWidth="2sp"
+                app:cursorEnabled="true"
+                app:scaleShowGridLines="true"/>
+
+            <LinearLayout
+                android:id="@+id/buttonLayout"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp">
+
+                <Button
+                    android:text="-1h"
+                    android:id="@+id/buttonLeft"
+                    android:layout_width="55dp"
+                    android:layout_marginBottom="114dp"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_weight="1"
+                    android:onClick="onDecreaseCursor"
+                    android:layout_height="70dp" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="70dp"
+                    android:layout_weight="1">
+
+                    <Button
+                        android:id="@+id/buttonUp"
+                        style="@style/Widget.AppCompat.Button.Colored"
+                        android:text="+"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:onClick="onIncreaseValue" />
+
+                    <Button
+                        android:id="@+id/buttonDown"
+                        style="@style/Widget.AppCompat.Button.Colored"
+                        android:text="-"
+                        android:layout_width="match_parent"
+                        android:onClick="onDecreaseValue"
+                        android:layout_height="35dp"
+                        android:layout_marginBottom="33dp" />
+                </LinearLayout>
+
+                <Button
+                    android:text="+1h"
+                    android:layout_width="55dp"
+                    android:id="@+id/buttonRight"
+                    android:layout_weight="1"
+                    android:onClick="onIncreaseCursor"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_height="70dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/spinnerLayout"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/stepString"
+                    android:textStyle="bold"
+                    android:textSize="18sp" />
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spinner"
+                    android:entries="@array/stepSize"
+                    android:dropDownWidth="match_parent"
+                    android:layout_marginBottom="73dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

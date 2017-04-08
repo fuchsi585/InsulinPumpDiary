@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="GraphView">
+        <attr name="scaleFontSize" format="dimension"/>
+        <attr name="stepLineWidth" format="dimension"/>
+        <attr name="scaleScaleWidth" format="dimension"/>
+        <attr name="cursorEnabled" format="boolean"/>
+        <attr name="scaleShowGridLines" format="boolean"/>
+    </declare-styleable>
+</resources>
