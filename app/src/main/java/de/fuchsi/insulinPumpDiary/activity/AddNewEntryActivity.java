@@ -99,23 +99,20 @@ public class AddNewEntryActivity extends AppCompatActivity implements OnItemSele
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_done) {
-            if (nameEditText.getText().toString().isEmpty()){
-                Toast.makeText(this, "Bitte Namen eintragen!", Toast.LENGTH_LONG).show();
-            }
-            else saveEntryToDatabase(false);
-            return true;
+        if (nameEditText.getText().toString().isEmpty()){
+            Toast.makeText(this, "Bitte Namen eintragen!", Toast.LENGTH_LONG).show();
         }
-        else if (id == R.id.action_delete){
-            deleteEntry();
-            return true;
-        }
-        else if (id == R.id.action_copy){
-            if (nameEditText.getText().toString().isEmpty()){
-                Toast.makeText(this, "Bitte Namen eintragen!", Toast.LENGTH_LONG).show();
+        else {
+            if (id == R.id.action_done) {
+                saveEntryToDatabase(mUpdateEntry);
+                return true;
+            } else if (id == R.id.action_delete) {
+                deleteEntry();
+                return true;
+            } else if (id == R.id.action_copy) {
+                saveEntryToDatabase(false);
+                return true;
             }
-            else saveEntryToDatabase(mUpdateEntry);
-            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -126,6 +123,7 @@ public class AddNewEntryActivity extends AppCompatActivity implements OnItemSele
         finish();
     }
     private void saveEntryToDatabase(boolean bEdit){
+        Log.d(LOG_TAG,"Eintrag editieren: " + String.valueOf(bEdit));
         if (bEdit){
             mEntryUpdate.setName(nameEditText.getText().toString());
             mEntryUpdate.setBasalRateArray(plotView.getData());
@@ -136,10 +134,10 @@ public class AddNewEntryActivity extends AppCompatActivity implements OnItemSele
             finish();
         }else{
             Intent intent = new Intent();
-            Entry newEntry = new Entry(-1,nameEditText.getText().toString(),Arrays.toString(plotView.getData()),
+            Entry newEntry = new Entry(-1,nameEditText.getText().toString(), Arrays.toString(plotView.getData()),
                                         activeSwitch.isChecked());
             intent.putExtra(Entry.NEW, newEntry);
-            setResult(RESULT_OK,intent);
+            setResult(RESULT_OK, intent);
             finish();
         }
     }

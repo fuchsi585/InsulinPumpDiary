@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import java.text.DecimalFormat;
@@ -96,9 +97,9 @@ public class GraphView extends View {
         super.onDraw(canvas);
 
         init();
-
         drawScale(canvas);
         drawSteps(canvas);
+        if (cursorEnabled) drawCursor(canvas);
     }
     /*
      * view intialization
@@ -197,6 +198,7 @@ public class GraphView extends View {
     DecimalFormat df = new DecimalFormat("0.00");
 
     void drawScale(Canvas ctx){
+        Log.d(LOG_TAG,"Drawing scale!");
         Path path = new Path();
         paint.setStrokeWidth(scaleLineWidth);
         paint.setColor(scaleLineColor);
@@ -228,26 +230,6 @@ public class GraphView extends View {
                 ctx.drawText(xLabels[i], (float) (yAxisPosX + i * valueHop), (float) (xAxisPosY + scaleFontSize + 3), paint);
             }
             path.reset();
-            //cursor
-
-            if (cursorEnabled && i == cursorPosition){
-                paint.setStrokeWidth(cursorLineWidth);
-                paint.setStyle(Paint.Style.STROKE);
-                paint.setColor(cursorColor);
-                path.moveTo((float)(yAxisPosX + i * valueHop + valueHop/2), (float)(xAxisPosY+3));
-                path.lineTo((float)(yAxisPosX + i * valueHop + valueHop/2), 5);
-                ctx.drawPath(path, paint);
-                paint.setStyle(Paint.Style.FILL);
-                ctx.drawText(String.valueOf(i), (float) (yAxisPosX + i*valueHop), (float) (xAxisPosY + scaleFontSize+3), paint);
-
-                //show Cursor data value
-                paint.setStyle(Paint.Style.FILL);
-                Double cursorValue = (double)Math.round(data[i] * 100) / 100;
-                ctx.drawText(df.format(cursorValue),
-                        (float) (yAxisPosX + i*valueHop + valueHop/2),
-                        (float) (yPos(i)),
-                        paint);
-            }
 
             paint.setStrokeWidth(scaleGridLineWidth);
             paint.setStyle(Paint.Style.STROKE);
@@ -286,6 +268,7 @@ public class GraphView extends View {
                     (float)(yAxisPosX - 8),
                     (float)(xAxisPosY - ((j + 1) * scaleHop) + paint.getTextSize()/3), paint);
         }
+        Log.d(LOG_TAG,"Drawn scale!");
     }
     /*
      * draw line
@@ -301,6 +284,7 @@ public class GraphView extends View {
     float   pointDotRadius      = 4 * 3;
 
     void drawSteps(Canvas ctx) {
+        Log.d(LOG_TAG,"Drawing steps!");
         Path path = new Path();
         paint.setColor(stepLineColor);
         paint.setStrokeWidth(stepLineWidth);
@@ -339,7 +323,60 @@ public class GraphView extends View {
                      pointDotRadius, Path.Direction.CW);
         }
         ctx.drawPath(path, paint);
+        Log.d(LOG_TAG,"Drawn steps!");
     }
+
+    int dataCursorTextColor = Color.RED;
+    int dataCursorTextWidth = (int)(scaleFontSize/1.5);
+
+    void drawCursor(Canvas ctx){
+        Log.d(LOG_TAG,"Drawing cursor!");
+        Path path = new Path();
+        if (rotateLabels > 0){
+            ctx.save();
+            paint.setTextAlign(Paint.Align.RIGHT);
+        }else {
+            paint.setTextAlign(Paint.Align.CENTER);
+        }
+        paint.setStrokeWidth(cursorLineWidth);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setColor(cursorColor);
+        paint.setTextSize(scaleFontSize);
+
+        path.moveTo((float)(yAxisPosX + cursorPosition * valueHop + valueHop/2),
+                    (float)(xAxisPosY + 3));
+        path.lineTo((float)(yAxisPosX + cursorPosition * valueHop + valueHop/2),
+                    5);
+        ctx.drawPath(path, paint);
+
+        paint.setStyle(Paint.Style.FILL);
+        ctx.drawText(String.valueOf(cursorPosition),
+                (float) (yAxisPosX + cursorPosition*valueHop),
+                (float) (xAxisPosY + scaleFontSize + 3), paint);
+
+        //show Cursor data value
+        paint.setStyle(Paint.Style.STROKE);
+
+        paint.setColor(stepPointColor);
+        paint.setStrokeWidth(pointDotStrokeWidth*4);
+        path.reset();
+        path.addCircle((float) (yAxisPosX + (valueHop*cursorPosition) + valueHop/2),
+                (float) (yPos(cursorPosition)),
+                pointDotRadius, Path.Direction.CW);
+        ctx.drawPath(path, paint);
+
+        paint.setTextSize(dataCursorTextWidth);
+        paint.setColor(dataCursorTextColor);
+        paint.setStyle(Paint.Style.FILL);
+        ctx.drawText(df.format(data[cursorPosition]),
+                    (float) (yAxisPosX + valueHop*cursorPosition + valueHop/2),
+                    (float) (yPos(cursorPosition) + pointDotRadius/2),
+                    paint);
+        Log.d(LOG_TAG,"Drawn cursor!");
+    }
+
+
+
     /*
      * helper functions
      */

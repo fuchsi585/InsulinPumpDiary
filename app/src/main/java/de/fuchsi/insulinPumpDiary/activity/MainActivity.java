@@ -88,13 +88,16 @@ public class MainActivity extends AppCompatActivity implements OnEntryListClickL
         Entry intentData;
 
         if (resultCode == RESULT_OK) {
+            Log.d(LOG_TAG,"RequestCode: " + String.valueOf(requestCode));
             if (requestCode == 1) {
                 b = data.getExtras();
                 if (data.hasExtra(Entry.NEW) && (b != null)) {
                     intentData = (Entry) b.getSerializable(Entry.NEW);
                     if (intentData != null) {
                         Log.d(LOG_TAG, "Create Entry!");
-                        dataSource.createEntry(intentData.getName(), intentData.getBasalRateArrayString(), intentData.getActive());
+                        dataSource.createEntry(intentData.getName(),
+                                intentData.getBasalRateArrayString(),
+                                intentData.getActive());
                         mListAdapter.add(mListAdapter.getItemCount(),intentData);
                         sortList(mSortOrder);
                     }
@@ -111,6 +114,17 @@ public class MainActivity extends AppCompatActivity implements OnEntryListClickL
                 else if (data.hasExtra(Entry.DELETE) && (b != null)){
                     Log.d(LOG_TAG, "Delete Entry!");
                     dataSource.deleteEntry(b.getString(Entry.DELETE));
+                }
+                else if (data.hasExtra(Entry.NEW) && (b != null)){
+                    Log.d(LOG_TAG, "Copy of Entry!");
+                    intentData = (Entry) b.getSerializable(Entry.NEW);
+                    if (intentData != null) {
+                        dataSource.createEntry("Copy of " + intentData.getName(),
+                                intentData.getBasalRateArrayString(),
+                                intentData.getActive());
+                        mListAdapter.add(mListAdapter.getItemCount(), intentData);
+                        sortList(mSortOrder);
+                    }
                 }
                 refreshList();
             }

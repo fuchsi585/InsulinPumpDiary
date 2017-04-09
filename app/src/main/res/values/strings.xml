@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Basal-Rate-DB</string>
+    <string name="app_name">InsulinPumpDiary</string>
     <string name="settingsString">Settings</string>
     <string name="aboutString">About</string>
     <string name="newEntry">New Entry</string>

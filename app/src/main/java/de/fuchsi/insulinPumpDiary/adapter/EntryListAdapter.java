@@ -53,8 +53,12 @@ public class EntryListAdapter extends RecyclerView.Adapter<EntryListAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Entry entry = mModel.get(position);
+
         holder.title.setText(entry.getName());
         holder.total.setText("24-Total: " + String.valueOf(entry.getBasalRateSum()) + " Units");
+        if (entry.getActive()) holder.active.setVisibility(TextView.VISIBLE);
+        else holder.active.setVisibility(TextView.INVISIBLE);
+
         holder.itemView.setOnClickListener(new EntryListClickListener(mClickListener,position));
     }
     @Override
@@ -75,11 +79,13 @@ public class EntryListAdapter extends RecyclerView.Adapter<EntryListAdapter.View
     class ViewHolder extends RecyclerView.ViewHolder{
         TextView title;
         TextView total;
+        TextView active;
 
         ViewHolder(View v){
             super(v);
             title = (TextView) v.findViewById(R.id.item_title);
             total = (TextView) v.findViewById(R.id.item_total);
+            active= (TextView) v.findViewById(R.id.item_active);
         }
     }
 }
