@@ -45,6 +45,7 @@ public class GraphView extends View {
     }
     public void decreaseValue(double step){
         data[cursorPosition] =  Math.max(data[cursorPosition] - step,0);
+        if (data[cursorPosition] < 0.01) data[cursorPosition] = 0;
         invalidate();
     }
     public void increaseCursor(){
@@ -198,7 +199,6 @@ public class GraphView extends View {
     DecimalFormat df = new DecimalFormat("0.00");
 
     void drawScale(Canvas ctx){
-        Log.d(LOG_TAG,"Drawing scale!");
         Path path = new Path();
         paint.setStrokeWidth(scaleLineWidth);
         paint.setColor(scaleLineColor);
@@ -242,6 +242,7 @@ public class GraphView extends View {
             }
             ctx.drawPath(path, paint);
         }
+        //y-axis
         paint.setStrokeWidth(scaleLineWidth);
         paint.setColor(scaleLineColor);
         paint.setStyle(Paint.Style.STROKE);
@@ -250,14 +251,15 @@ public class GraphView extends View {
         path.lineTo((float)(yAxisPosX), 5);
         ctx.drawPath(path, paint);
 
+        //y-Label
         paint.setTextAlign(Paint.Align.RIGHT);
         paint.setStrokeWidth(scaleGridLineWidth);
-        for (int j = 0; j < steps; j++){
+        for (int j = 0; j < steps; j++) {
             path.reset();
             paint.setColor(scaleGridLineColor);
             paint.setStyle(Paint.Style.STROKE);
-            path.moveTo((float) (yAxisPosX -3), (float) (xAxisPosY - ((j + 1) * scaleHop)));
-            path.lineTo((float) (yAxisPosX + xAxisLength +  5), (float) (xAxisPosY - ((j + 1) * scaleHop)));
+            path.moveTo((float) (yAxisPosX - 3), (float) (xAxisPosY - ((j + 1) * scaleHop)));
+            path.lineTo((float) (yAxisPosX + xAxisLength + 5), (float) (xAxisPosY - ((j + 1) * scaleHop)));
             ctx.drawPath(path, paint);
 
             paint.setTextSize(scaleFontSize);
@@ -265,10 +267,10 @@ public class GraphView extends View {
             paint.setStyle(Paint.Style.FILL);
 
             ctx.drawText(yLabels.get(j),
-                    (float)(yAxisPosX - 8),
-                    (float)(xAxisPosY - ((j + 1) * scaleHop) + paint.getTextSize()/3), paint);
+                    (float) (yAxisPosX - 8),
+                    (float) (xAxisPosY - ((j + 1) * scaleHop) + paint.getTextSize() / 3), paint);
         }
-        Log.d(LOG_TAG,"Drawn scale!");
+
     }
     /*
      * draw line
@@ -284,7 +286,6 @@ public class GraphView extends View {
     float   pointDotRadius      = 4 * 3;
 
     void drawSteps(Canvas ctx) {
-        Log.d(LOG_TAG,"Drawing steps!");
         Path path = new Path();
         paint.setColor(stepLineColor);
         paint.setStrokeWidth(stepLineWidth);
@@ -323,14 +324,12 @@ public class GraphView extends View {
                      pointDotRadius, Path.Direction.CW);
         }
         ctx.drawPath(path, paint);
-        Log.d(LOG_TAG,"Drawn steps!");
     }
 
     int dataCursorTextColor = Color.RED;
     int dataCursorTextWidth = (int)(scaleFontSize/1.5);
 
     void drawCursor(Canvas ctx){
-        Log.d(LOG_TAG,"Drawing cursor!");
         Path path = new Path();
         if (rotateLabels > 0){
             ctx.save();
@@ -372,7 +371,6 @@ public class GraphView extends View {
                     (float) (yAxisPosX + valueHop*cursorPosition + valueHop/2),
                     (float) (yPos(cursorPosition) + pointDotRadius/2),
                     paint);
-        Log.d(LOG_TAG,"Drawn cursor!");
     }
 
 
@@ -383,13 +381,12 @@ public class GraphView extends View {
 
     double maxSteps;
     double minSteps;
-    double maxValue;
-    double minValue;
+    double maxValue = 0.17;
+    double minValue = 0;
     double steps;
     double stepValue;
-    double graphMin;
 
-    List<String> yLabels;
+    List<String> yLabels = new ArrayList<>();
 
     double xPos(int iteration){
         return yAxisPosX + (valueHop * iteration);
@@ -400,7 +397,7 @@ public class GraphView extends View {
 
     double calculateOffset(double val) {
         double outerValue = steps * stepValue;
-        double adjustedValue = val - graphMin;
+        double adjustedValue = val;
         double scalingFactor = CapValue(adjustedValue/outerValue,1,0);
 
         return (scaleHop*steps)*scalingFactor;
@@ -421,8 +418,8 @@ public class GraphView extends View {
             if (data[i] < minValue) minValue = data[i];
         }
 
-        maxSteps = Math.floor((scaleHeight / (labelHeight*0.66)));
-        minSteps = Math.floor((scaleHeight / labelHeight*0.5));
+        maxSteps = Math.floor((scaleHeight / (labelHeight*1.1)));
+        minSteps = Math.floor((scaleHeight / labelHeight*0.4));
     }
 
     void calculateScale() {
@@ -430,38 +427,42 @@ public class GraphView extends View {
         valueRange = ((maxValue - minValue) < 0) ? 0 : maxValue - minValue;
         rangeOrderOfMagnitude = calculateOrderOfMagnitude(valueRange);
 
-        graphMin = Math.floor(minValue / (1 * Math.pow(10,rangeOrderOfMagnitude))) * Math.pow(10, rangeOrderOfMagnitude);
-        graphMin = Math.max(graphMin - 0.02, 0);
         graphMax = Math.ceil(maxValue / (1 * Math.pow(10,rangeOrderOfMagnitude))) * Math.pow(10, rangeOrderOfMagnitude);
         graphMax = graphMax + 0.02;
-        graphRange = graphMax - graphMin;
+        graphRange = graphMax;
         stepValue = Math.pow(10, rangeOrderOfMagnitude);
         stepValue = stepValue * 100;
         stepValue = Math.round(stepValue);
         stepValue = stepValue * 100;
         numberOfSteps = (Double.isNaN(graphRange)) ? Double.NaN : Math.round(graphRange / stepValue);
 
-        if (data.length > 0){
-            while (numberOfSteps < minSteps || numberOfSteps > maxSteps){
-                if(numberOfSteps < minSteps){
-                    stepValue /= 2;
-                    numberOfSteps = Math.round(graphRange/stepValue);
-                }else{
-                    stepValue *= 2;
-                    numberOfSteps = Math.round(graphRange/stepValue);
+        if (numberOfSteps < 30) {
+            while (numberOfSteps < minSteps || numberOfSteps > maxSteps) {
+                if (numberOfSteps < minSteps) {
+                    stepValue = stepValue / 2;
+                    numberOfSteps = Math.round(graphRange / stepValue);
+                } else {
+                    stepValue = stepValue * 2;
+                    numberOfSteps = Math.round(graphRange / stepValue);
                 }
             }
+            populateLabels(numberOfSteps, stepValue);
+        }else{
+            numberOfSteps = 3;
+            stepValue = 0.05;
+            yLabels = new ArrayList<>();
+            yLabels.add("0.05");
+            yLabels.add("0.10");
+            yLabels.add("0.15");
         }
-        populateLabels(numberOfSteps, graphMin, stepValue);
 
         steps = numberOfSteps;
     }
 
-    void populateLabels(double numberOfSteps, double graphMin, double stepValue) {
+    void populateLabels(double numberOfSteps, double stepValue) {
         List<String> tempLabel = new ArrayList<>();
-
-        for (int i=1; i < numberOfSteps + 1; i++){
-            double labVal = graphMin + stepValue*i;
+        for (int i = 1; i < numberOfSteps + 1; i++) {
+            double labVal = stepValue * i;
             tempLabel.add(df.format(labVal));
         }
         yLabels = tempLabel;
